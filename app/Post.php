@@ -8,7 +8,7 @@ use App\User;
 class Post extends Model
 {
     protected $fillable = [
-        'user_id', 'content',
+        'user_id', 'nama', 'gender', 'alamat', 'harga', 'deskripsi',
     ];
 
     public function scopeLatestFirst($query)

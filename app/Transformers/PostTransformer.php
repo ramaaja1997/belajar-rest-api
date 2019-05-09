@@ -11,7 +11,11 @@ class PostTransformer extends TransformerAbstract
     {
         return [
             'id'        => $post->id,
-            'content'   => $post->content,
+            'nama'   	=> $post->nama,
+            'gender'   	=> $post->gender,
+            'alamat'   	=> $post->alamat,
+            'harga'		=> $post->harga,
+            'deskripsi'	=> $post->deskripsi,
             'published' => $post->created_at->diffForHumans(),
         ];
     }

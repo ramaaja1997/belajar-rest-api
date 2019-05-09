@@ -14,12 +14,20 @@ class PostController extends Controller
     public function add(Request $request, Post $post)
     {
         $this->validate($request, [
-            'content'   => 'required|min:10',
+            'nama'       => 'required|min:10',
+            'gender'     => 'required|min:4',
+            'alamat'     => 'required|min:10',
+            'harga'      => 'required|min:5',
+            'deskripsi'  => 'required|min:10',
         ]);
 
         $post = $post->create([
             'user_id'   => Auth::user()->id,
-            'content'   => $request->content,
+            'nama'      => $request->nama,
+            'gender'    => $request->gender,
+            'alamat'    => $request->alamat,
+            'harga'     => $request->harga,
+            'deskripsi' => $request->deskripsi,
         ]);
 
         $response = fractal()
