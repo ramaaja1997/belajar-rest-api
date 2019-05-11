@@ -619,6 +619,7 @@
   </head>
   <body>
     <div class="s01">
+        <a class="btn btn-link" href="{{ url('/home') }}">Home</a>
       <form>
         <fieldset>
           <legend>REST API Pencarian Kos-Kosan</legend>
