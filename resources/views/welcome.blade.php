@@ -4,6 +4,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="author" content="colorlib.com">
+    <script src="{{ asset('/js/jquery.min.js') }}"></script>
     <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet" />
     <!-- <link href="css/main.css" rel="stylesheet" /> -->
     <style type="text/css">
@@ -554,7 +555,7 @@
         .s01 form .inner-form .input-field.third-wrap .btn-search {
           height: 100%;
           width: 100%;
-          background: #4272d7;
+          background: #4CAF50;
           white-space: nowrap;
           border-radius: .5px;
           font-size: 20px;
@@ -565,7 +566,7 @@
         }
 
         .s01 form .inner-form .input-field.third-wrap .btn-search:hover {
-          background: #2d62d3;
+          background: #3c8c3f;
         }
 
         @media screen and (max-width: 992px) {
@@ -615,21 +616,87 @@
           }
         }
 
+        ul {
+          list-style-type: none;
+          margin: 0;
+          padding: 0;
+          overflow: hidden;
+          background-color: #333;
+        }
+
+        li {
+          float: left;
+        }
+
+        li a {
+          display: block;
+          color: white;
+          text-align: center;
+          padding: 14px 16px;
+          text-decoration: none;
+        }
+
+        li a:hover:not(.active) {
+          background-color: #111;
+        }
+
+        .active {
+          background-color: #4CAF50;
+        }
+
+        #customers {
+          font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+          border-collapse: collapse;
+          width: 100%;
+        }
+
+        #customers td, #customers th {
+          border: 1px solid #ddd;
+          padding: 8px;
+        }
+
+        #customers tr:nth-child(even){background-color: #f2f2f2;}
+
+        #customers tr:hover {background-color: #ddd;}
+
+        #customers th {
+          padding-top: 12px;
+          padding-bottom: 12px;
+          text-align: left;
+          background-color: #4CAF50;
+          color: white;
+        }
+
+        .show {
+            display: none;
+        }
+
+        .menu4{
+          color:black;
+          font-family:Montserrat;
+          font-size: 30px;
+          padding-top:20px;
+        }
+
     </style>
   </head>
+
   <body>
+      <ul>
+        <li><a class="active" href="{{ url('/home') }}">Login</a></li>
+        <li><a href="{{ url('/register') }}">Registrasi</a></li>
+      </ul>
     <div class="s01">
-        <a class="btn btn-link" href="{{ url('/home') }}">Home</a>
       <form>
         <fieldset>
-          <legend>REST API Pencarian Kos-Kosan</legend>
+          <legend>Pencari Kos-Kosan di Yogyakarta</legend>
         </fieldset>
         <div class="inner-form">
           <div class="input-field first-wrap">
-            <input id="search" type="text" placeholder="Kategori Gender" />
+            <input id="gender" type="text" placeholder="Kategori Gender" />
           </div>
           <div class="input-field second-wrap">
-            <input id="location" type="text" placeholder="Lokasi" />
+            <input id="alamat" type="text" placeholder="Lokasi" />
           </div>
           <div class="input-field third-wrap">
             <button class="btn-search" type="button">Search</button>
@@ -637,5 +704,70 @@
         </div>
       </form>
     </div>
+    <div>
+        <div class="show">
+        <table  id="customers">
+          <thead>
+          <tr>
+          <th>Nama</th>
+          <th>Gender</th>
+          <th>Alamat</th>
+          <th>Deskripsi</th>
+          </tr>
+          </thead>
+        <tbody id="list-tbody">
+        </tbody>
+        </table>
+        </div>
+    </div>
   </body><!-- This templates was made by Colorlib (https://colorlib.com) -->
 </html>
+
+    
+    <script type="text/javascript">
+    $(document).ready(function () {
+        // key enter
+        $("#alamat").keydown(function(event){
+        if ( event.which === 13 ) {
+          show(); 
+        }});
+        // click button
+      $(".btn-search").click(function(event){
+        show();
+        });
+    });
+    function show (){
+      alert('Yakin ingin mencari data?');
+                event.preventDefault();
+                $.ajax({
+                url: 'http://localhost:8000/api/dataKos',
+                type: 'get',
+                dataType : 'json',
+                data: {
+                        "gender": $('#gender').val(),
+                        "alamat": $('#alamat').val()
+                    },
+                success: function (data) {
+                    console.info(data);
+                    table.empty();
+                    $.each(data, function(key, value){
+                    table.append("<tr><td>"+value['nama']+"</td>"+
+                      "<td>" +value['gender']+ "</td>" +
+                      "<td>" +value['alamat']+ "</td>" +
+                      "<td>" +value['deskripsi']+"</td></tr>");
+                  })
+                  slideShow();
+                }
+            });
+    }
+
+    var table = $("#list-tbody");
+    function slideShow() {
+      $(".show").slideToggle("slow");
+    }
+    // $(document).on('click', '.btn-search', function(event){
+            
+    //     });
+
+
+    </script>

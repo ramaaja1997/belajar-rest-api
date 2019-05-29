@@ -8,8 +8,9 @@
                 <div class="panel-heading">Dashboard</div>
 
                 <div class="panel-body">
-                    You are logged in!
-                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/api/post') }}">
+                    Kamu Telah Login! Kamu bisa menmabahkan data Kos disini
+                    <!-- <form class="form-horizontal" role="form" method="POST" action="{{ url('/api/post') }}"> -->
+                    <form class="form-horizontal" role="form">    
                         {{ csrf_field() }}
 
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
@@ -84,7 +85,7 @@
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary">
+                                <button type="button" id="btnpost" class="btn btn-primary">
                                     Post
                                 </button>
                             </div>
@@ -96,4 +97,40 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('scripts')
+    
+    <script type="text/javascript">
+    $(document).on('click', '#btnpost', function(event){
+            alert('Yakin Ingin Menambah Data Kos?');
+            event.preventDefault();
+            $.ajax({
+            url: 'http://localhost:8000/api/post',
+            type: 'post',
+            dataType : 'json',
+            data: {
+                    "nama": $('#name').val(),
+                    "gender": $('#gender').val(),
+                    "alamat": $('#alamat').val(),
+                    "harga": $('#harga').val(),
+                    "deskripsi": $('#deskripsi').val()
+                },
+            headers: {
+                Authorization : 'Bearer {{Auth::user()->api_token}}',
+                },
+            success: function (data) {
+                console.info(data);
+                alert('Data Berhasil Ditambahkan');
+                $('#name').val("");
+                $('#gender').val("");
+                $('#alamat').val("");
+                $('#harga').val("");
+                $('#deskripsi').val("");
+            }
+        });
+        });
+
+    </script>
+
 @endsection

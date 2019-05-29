@@ -13,6 +13,7 @@ class PostController extends Controller
 {
     public function add(Request $request, Post $post)
     {
+        // dd($request->input('nama'));
         $this->validate($request, [
             'nama'       => 'required|min:10',
             'gender'     => 'required|min:4',
@@ -61,4 +62,24 @@ class PostController extends Controller
             'message' => 'Post deleted',
         ]);
     }
+
+    public function getData(Request $request){
+        $list = [];
+
+    //     if($request->input('gender') !=null){
+    //         $list = Post::where('gender','=',$request->input('gender'))->get();
+    //     }
+        
+    //    else if($request->input('lokasi') !=null){
+    //         $list = Post::where('lokasi','like','%'.$request->input('lokasi').'%')->get();
+    //     }
+
+        if($request->input('gender') !=null && $request->input('alamat') !=null){
+            $list = Post::where('gender','like','%'.$request->input('gender').'%')
+            ->where('alamat','like','%'.$request->input('alamat').'%')->get();
+        }  
+        return response()->json($list);
+    }
+
+
 }
