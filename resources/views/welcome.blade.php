@@ -736,6 +736,8 @@
         show();
         });
     });
+    
+    var table = $("#list-tbody");
     function show (){
       alert('Yakin ingin mencari data?');
                 event.preventDefault();
@@ -761,7 +763,6 @@
             });
     }
 
-    var table = $("#list-tbody");
     function slideShow() {
       $(".show").slideToggle("slow");
     }
